@@ -11,7 +11,7 @@ cloudinary.config({
 });
 
 exports.featureContentAdd = async (req, res, images) => {
-    // try {
+    try {
     const rules = { title: "required" };
     var validation = new Validator(req.body, rules)
     if (validation.fails()) {
@@ -39,9 +39,9 @@ exports.featureContentAdd = async (req, res, images) => {
             return res.status(403).json({ responseMessage: "Feature Not Exist", responseData: {} });
         }
     }
-    // } catch (err) {
-    //     return res.status(500).json({ responseMessage: " Internal Sever Error", responseData: {} })
-    // }
+    } catch (err) {
+        return res.status(500).json({ responseMessage: " Internal Sever Error", responseData: {} })
+    }
 }
 
 exports.featureContentGet = async (req, res) => {

@@ -57,7 +57,6 @@ exports.bulidScaleGetById = async (req, res) => {
     try {
         const { _id } = req.query;
         const contentlist = await Bulid.findById(_id);
-        console.log("res", contentlist)
         if (contentlist) {
             return res.status(200).json({ responseMessage: "Successfully", contentlist });
         } else {
@@ -73,8 +72,7 @@ exports.bulidScaleUpdate = async (req, res,) => {
         const rules = { title: "required", paragraph: "required", button: "required" };
         const validation = new Validator(req.body, rules);
         if (validation.fails()) {
-            return res.status(422).json({
-                responseMessage: "Validation Error", responseData: validation.errors.all(),
+            return res.status(422).json({responseMessage: "Validation Error", responseData: validation.errors.all(),
             });
         } else {
             const { title, paragraph, button } = req.body;

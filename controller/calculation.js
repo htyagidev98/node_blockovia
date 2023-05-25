@@ -27,7 +27,6 @@ exports.calculationAdd = async (req, res,) => {
     }
 }
 
-
 exports.calculationGet = async (req, res) => {
     try {
         const contentlist = await Calculation.find().sort({ createdAt: -1 });
@@ -38,7 +37,7 @@ exports.calculationGet = async (req, res) => {
                     _id: content._id,
                     title: content.title,
                     paragraph: content.paragraph,
-                   
+
                 };
                 responseData.push(contentObj);
             });
@@ -51,35 +50,38 @@ exports.calculationGet = async (req, res) => {
     }
 };
 
-// exports.featureContentUpdate = async (req, res, images) => {
-//     try {
-//         const { title } = req.body;
-//         const featureData = await Feature.findOne({ title: title }).lean();
-//         if (featureData) {
 
-//             let logoData = [];
-//             let result = await cloudinary.uploader.upload(req.file.path, {
-//                 images,
-//                 overwrite: true,
-//                 faces: false,
-//             });
-//             logoData.push({
-//                 image_url: result.secure_url,
-//                 image_id: result.public_id,
-//             });
-//             let data = await Feature.findOneAndUpdate(
-//                 { _id: featureData._id },
-//                 { title: title },
-//                 { $push: { logoData: logoData } },
-//                 { new: false, }
-//             );
+exports.calculationGetById = async (req, res) => {
+    try {
+        const { _id } = req.query;
+        const contentlist = await Calculation.findById(_id);
+        if (contentlist) {
+            return res.status(200).json({ responseMessage: "Successfully", contentlist });
+        } else {
+            return res.status(404).json({ responseMessage: "No Data found", responseData: {} });
+        }
+    } catch (err) {
+        return res.status(500).json({ responseMessage: "Internal Server Error", responseData: {} });
+    }
+};
 
-//             return res.status(200).json({ responseMessage: "Successfully", responseData: { data }, });
-//         } else {
-//             return res.status(404).json({ esponseMessage: "feature not found", responseData: {}, });
-//         };
-//     } catch (err) {
-//         return res.status(500).json({ responseMessage: "Internal Server Error", responseData: {}, });
-//     }
-// };
+exports.calculationContentUpdate = async (req, res, images) => {
+    try {
+        const { title, paragraph } = req.body;
+        const { _id } = req.query;
+        const calculationData = await Calculation.findById(_id).lean();
+        if (calculationData) {
+            let updatedData = {
+                title: title,
+                paragraph: paragraph
+            }
+            let data = await Calculation.findByIdAndUpdate({ _id: _id }, updatedData, { new: false, });
+            return res.status(200).json({ responseMessage: "Successfully", responseData: { data }, });
+        } else {
+            return res.status(404).json({ esponseMessage: "Data not found", responseData: {}, });
+        };
+    } catch (err) {
+        return res.status(500).json({ responseMessage: "Internal Server Error", responseData: {}, });
+    }
+};
 

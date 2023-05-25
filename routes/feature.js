@@ -4,6 +4,8 @@ const multer = require('multer')
 const path = require('path');
 router = express.Router();
 
+// Image Upload 
+
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,6 +14,9 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
+// API Router
+
 router.post('/feature/content/add', upload.single('image'), featureContentAdd)
 router.get('/feature/content/get', featureContentGet)
 router.put('/feature/content/update', upload.single('image'), featureContentUpdate)

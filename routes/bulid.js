@@ -3,6 +3,8 @@ const express = require('express')
 
 router = express.Router();
 
+// API Router
+
 router.post('/bulid/scale/add', bulidScaleAdd)
 router.get('/bulid/scale/get', bulidScaleGet)
 router.get('/bulid/scale/get/id', bulidScaleGetById)

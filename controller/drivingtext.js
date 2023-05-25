@@ -41,7 +41,7 @@ exports.drivingTextGet = async (req, res) => {
                 paragraph: contentlist.paragraph,
                 button: contentlist.button,
             };
-            return res.status(200).json({ responseMessage: "Successfully", responseData: { contentObj } });
+            return res.status(200).json({ responseMessage: "Successfully", responseData:  contentObj  });
         } else {
             return res.status(404).json({ responseMessage: "No Data found", responseData: {} })
         };
@@ -50,3 +50,30 @@ exports.drivingTextGet = async (req, res) => {
     }
 };
 
+exports.drivingTextUpdate = async (req, res,) => {
+    try {
+        const rules = { title: "required", paragraph: "required", button: "required" };
+        const validation = new Validator(req.body, rules);
+        if (validation.fails()) {
+            return res.status(422).json({responseMessage: "Validation Error", responseData: validation.errors.all(),
+            });
+        } else {
+            const { title, paragraph, button } = req.body;
+            const { _id } = req.query;
+            let drivingTextData = await DrivingText.findById(_id).lean();
+            if (drivingTextData) {
+                let updatedData = {
+                    title: title,
+                    paragraph: paragraph,
+                    button: button
+                }
+                const data = await DrivingText.findByIdAndUpdate({ _id: _id }, updatedData, { new: true });
+                return res.status(200).json({ responseMessage: "Successfully Updated", responseData: data });
+            } else {
+                return res.status(404).json({ esponseMessage: "feature not found", responseData: {}, });
+            };
+        }
+    } catch (err) {
+        return res.status(500).json({ responseMessage: "Internal Server Error", responseData: {}, });
+    }
+};

@@ -14,7 +14,8 @@ exports.blockchainAdd = async (req, res, images) => {
         const rules = { title: "required", button: "required" };
         var validation = new Validator(req.body, rules);
         if (validation.fails()) {
-            return res.status(422).json({ responseMessage: "Validation Error", responseData: validation.errors.all(), });
+            return res.status(422).json({responseMessage: "Validation Error", responseData: validation.errors.all(),
+            });
         } else {
             const { title, button, } = req.body;
             let blockchainData = await Blockchain.findOne({ title: title }).lean();
@@ -67,7 +68,6 @@ exports.blockchainContentUpdate = async (req, res, images) => {
     try {
         const rules = { title: "required", button: "required" };
         const validation = new Validator(req.body, rules);
-
         if (validation.fails()) {
             return res.status(422).json({
                 responseMessage: "Validation Error", responseData: validation.errors.all(),

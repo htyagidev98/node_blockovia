@@ -45,7 +45,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    // try {
+    try {
     const rules = { email: "required", password: "required" };
     var validation = new Validator(req.body, rules);
     if (validation.fails()) {
@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
         }
 
     };
-    // } catch (err) {
-    //     return res.status(500).json({ responseMessage: "Internal Server Error", responseData: {}, });
-    // }
+    } catch (err) {
+        return res.status(500).json({ responseMessage: "Internal Server Error", responseData: {}, });
+    }
 };

@@ -73,8 +73,7 @@ exports.heroContentUpdate = async (req, res, images) => {
         const validation = new Validator(req.body, rules);
 
         if (validation.fails()) {
-            return res.status(422).json({
-                responseMessage: "Validation Error", responseData: validation.errors.all(),
+            return res.status(422).json({responseMessage: "Validation Error", responseData: validation.errors.all(),
             });
         } else {
             const { title, paragraph, button } = req.body;
@@ -88,17 +87,17 @@ exports.heroContentUpdate = async (req, res, images) => {
                     overwrite: true,
                     faces: false,
                 });
-                const img_id = result.public_id;
 
                 const updatedData = {
                     title: title,
                     paragraph: paragraph,
                     button: button,
-                    image_name:result.original_filename,
+                    image_name: result.original_filename,
                     image_url: result.secure_url,
-                    image_id: img_id,
+                    image_id: result.public_id
+
                 };
-                const data = await Home.findByIdAndUpdate({ _id: homeData._id }, updatedData, { new: true });
+                const data = await Home.findByIdAndUpdate({ _id: _id }, updatedData, { new: true });
 
                 return res.status(200).json({ responseMessage: "Successfully updated", responseData: data });
             }

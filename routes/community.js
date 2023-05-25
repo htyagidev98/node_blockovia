@@ -1,8 +1,11 @@
 const multer = require('multer')
 const path = require('path');
-const { communityAdd, communityGet } = require('../controller/community')
+const { communityAdd, communityGet,communityUpdate } = require('../controller/community')
 const express = require('express')
 router = express.Router();
+
+// Image Upload 
+ 
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,9 +15,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API Router
 
 router.post('/community/add', upload.single('image'), communityAdd)
 router.get('/community/get', communityGet)
-// router.put('/content/update', contentUpdate)
+router.put('/community/update', upload.single('image'), communityUpdate)
 
 module.exports = router;

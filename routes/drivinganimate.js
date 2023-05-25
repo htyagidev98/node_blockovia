@@ -1,8 +1,11 @@
 const multer = require('multer')
 const path = require('path');
-const { drivingAnimateAdd,drivingAnimateGet} = require('../controller/drivinganimate')
+const { drivingAnimateAdd, drivingAnimateGet, drivingAnimateGetById, drivingAnimateUpdate } = require('../controller/drivinganimate')
 const express = require('express')
 router = express.Router();
+
+// Image Upload 
+
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,9 +15,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API Router
 
 router.post('/driving/animate/add', upload.single('image'), drivingAnimateAdd)
 router.get('/driving/animate/get', drivingAnimateGet)
-// router.put('/content/update', contentUpdate)
+router.get('/driving/animate/get/id', drivingAnimateGetById)
+router.put('/driving/animate/update', upload.single('image'), drivingAnimateUpdate)
 
 module.exports = router;

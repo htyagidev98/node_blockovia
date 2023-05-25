@@ -1,8 +1,11 @@
 const multer = require('multer')
 const path = require('path');
-const { animatedCardAdd,animatedCardGet } = require('../controller/animatedcard')
+const { animatedCardAdd, animatedCardGet, animatedCardGetById, animatedCardUpdate } = require('../controller/animatedcard')
 const express = require('express')
 router = express.Router();
+
+// Image Upload 
+
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,10 +15,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API Router
 
 router.post('/animated/card/add', upload.single('image'), animatedCardAdd)
 router.get('/animated/card/get', animatedCardGet)
-// router.put('/content/update', contentUpdate)
+router.get('/animated/card/get/id', animatedCardGetById)
+router.put('/animated/card/update', upload.single('image'), animatedCardUpdate)
 
 module.exports = router;
 

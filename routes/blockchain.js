@@ -3,6 +3,9 @@ const path = require('path');
 const { blockchainAdd, blockchainGet, blockchainContentUpdate } = require('../controller/blockchain')
 const express = require('express')
 router = express.Router();
+
+// Image Upload 
+
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,6 +15,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API Router
 
 router.post('/blockchain/add', upload.single('image'), blockchainAdd)
 router.get('/blockchain/get', blockchainGet)

@@ -1,8 +1,11 @@
 const multer = require('multer')
 const path = require('path');
-const { footprintAdd,footprintGet} = require('../controller/footprint')
+const { footprintAdd, footprintGet, footprintUpdate } = require('../controller/footprint')
 const express = require('express')
 router = express.Router();
+
+// Image Upload 
+
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,9 +15,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API Router
 
 router.post('/footprint/add', upload.single('image'), footprintAdd)
 router.get('/footprint/get', footprintGet)
-// router.put('/content/update', contentUpdate)
+router.put('/footprint/update', upload.single('image'), footprintUpdate)
 
 module.exports = router;

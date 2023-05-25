@@ -42,7 +42,7 @@ exports.applicationGet = async (req, res) => {
                 paragraph: contentlist.paragraph,
                 button: contentlist.button,
             };
-            return res.status(200).json({ responseMessage: "Successfully", responseData: { contentObj } });
+            return res.status(200).json({ responseMessage: "Successfully", responseData:  contentObj  });
         } else {
             return res.status(404).json({ responseMessage: "No Data found", responseData: {} })
         };

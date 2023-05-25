@@ -3,6 +3,10 @@ const path = require('path');
 const { heroContentAdd, heroContentGet, heroContentUpdate } = require('../controller/home')
 const express = require('express')
 router = express.Router();
+
+
+// Image Upload 
+
 const storage = multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -12,6 +16,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// API Router
 
 router.post('/hero/content/add', upload.single('image'), heroContentAdd)
 router.get('/hero/content/get', heroContentGet)
